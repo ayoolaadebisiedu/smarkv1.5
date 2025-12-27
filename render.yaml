@@ -1,0 +1,22 @@
+services:
+  # Backend Service (FastAPI)
+  - type: web
+    name: smark-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false # Set this in the Render Dashboard
+      - key: PYTHONPATH
+        value: .
+
+  # Frontend Service (Next.js)
+  - type: web
+    name: smark-frontend
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false # Set this to the backend URL once generated
