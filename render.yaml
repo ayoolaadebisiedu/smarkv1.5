@@ -11,12 +11,11 @@ services:
       - key: PYTHONPATH
         value: .
 
-  # Frontend Service (Next.js)
-  - type: web
+  # Frontend Service (Static Site)
+  - type: static_site
     name: smark-frontend
-    runtime: node
     buildCommand: npm install && npm run build
-    startCommand: npm run start
+    publishPath: out # This is the folder created by 'output: export'
     envVars:
       - key: NEXT_PUBLIC_API_URL
         sync: false
