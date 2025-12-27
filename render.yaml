@@ -19,4 +19,4 @@ services:
     startCommand: npm run start
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        sync: false # Set this to the backend URL once generated
+        sync: false
