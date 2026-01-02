@@ -1,3 +1,10 @@
 {
-    "buildCommand": "npm run build"
+    "buildCommand": "npm run build",
+    "outputDirectory": "out",
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api/index.py"
+        }
+    ]
 }
