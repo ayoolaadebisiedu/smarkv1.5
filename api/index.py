@@ -50,4 +50,6 @@ except Exception as e:
             "path": path
         }
 
-# Export app for Vercel 
+# Export app for Vercel
+# This file should be accessible at /api/index
+# For catch-all routes, we'll handle all paths in the middleware 
