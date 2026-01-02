@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pandas
+numpy
+sqlalchemy
+pydantic
+websockets
+python-dotenv
+yfinance
+psycopg2-binary
+feedparser
+vaderSentiment
+beautifulsoup4
