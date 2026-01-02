@@ -1,4 +1,9 @@
-import MetaTrader5 as mt5
+try:
+    import MetaTrader5 as mt5
+except ImportError:
+    # Fallback for Linux/Vercel where MT5 is not available
+    mt5 = None
+
 import logging
 import os
 
@@ -15,6 +20,10 @@ class MT5Engine:
 
     def connect(self):
         """Initialize and login to MT5."""
+        if mt5 is None:
+            logger.warning("MT5 module not available. This is expected on non-Windows/Vercel environments.")
+            return False
+
         if not mt5.initialize():
             logger.error(f"MT5 initialization failed, error code: {mt5.last_error()}")
             return False
@@ -130,6 +139,7 @@ class MT5Engine:
 
     def shutdown(self):
         """Disconnect from MT5."""
-        mt5.shutdown()
+        if mt5:
+            mt5.shutdown()
         self.connected = False
         logger.info("MT5 connection closed")

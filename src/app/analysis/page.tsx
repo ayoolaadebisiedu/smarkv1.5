@@ -89,8 +89,8 @@ export default function AnalysisPage() {
 
     const fetchSignals = useCallback(async () => {
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-            const res = await fetch(`${API_URL}/signals`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            const res = await fetch(`${API_URL}/api/signals`);
             if (!res.ok) throw new Error("API unreachable");
             const data = await res.json();
             setSignals(data);
@@ -103,9 +103,9 @@ export default function AnalysisPage() {
 
     const fetchHistory = useCallback(async (ticker: string) => {
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
             setChartData([]);
-            const res = await fetch(`${API_URL}/history/${ticker}`);
+            const res = await fetch(`${API_URL}/api/history/${ticker}`);
             const data = await res.json();
             const formatted = data.map((d: any) => ({
                 time: d.time,
@@ -119,8 +119,8 @@ export default function AnalysisPage() {
 
     const fetchAccount = useCallback(async () => {
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-            const res = await fetch(`${API_URL}/account/summary`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            const res = await fetch(`${API_URL}/api/account/summary`);
             if (!res.ok) return;
             const data = await res.json();
             setAccountSummary(data);
@@ -129,8 +129,8 @@ export default function AnalysisPage() {
 
     const fetchActiveTrades = useCallback(async () => {
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-            const res = await fetch(`${API_URL}/trades/active`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            const res = await fetch(`${API_URL}/api/trades/active`);
             if (!res.ok) return;
             const data = await res.json();
             setActiveTrades(data);
@@ -139,8 +139,8 @@ export default function AnalysisPage() {
 
     const fetchTradeHistory = useCallback(async () => {
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-            const res = await fetch(`${API_URL}/trades/history`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            const res = await fetch(`${API_URL}/api/trades/history`);
             if (!res.ok) return;
             const data = await res.json();
             setTradeHistory(data);
@@ -148,10 +148,10 @@ export default function AnalysisPage() {
     }, []);
 
     const openTrade = async (data: { amount: number; sl?: number; tp?: number }) => {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
         setIsTrading(true);
         try {
-            await fetch(`${API_URL}/trades/open`, {
+            await fetch(`${API_URL}/api/trades/open`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -172,7 +172,8 @@ export default function AnalysisPage() {
 
     const closeTrade = async (id: number) => {
         try {
-            await fetch(`http://localhost:8000/trades/close/${id}`, { method: 'POST' });
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            await fetch(`${API_URL}/api/trades/close/${id}`, { method: 'POST' });
             await fetchActiveTrades();
             await fetchTradeHistory();
             await fetchAccount();
@@ -181,8 +182,8 @@ export default function AnalysisPage() {
 
     const fetchBacktests = useCallback(async () => {
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-            const res = await fetch(`${API_URL}/backtests`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            const res = await fetch(`${API_URL}/api/backtests`);
             if (!res.ok) return;
             const data = await res.json();
             setBacktestResults(data);
@@ -191,8 +192,8 @@ export default function AnalysisPage() {
 
     const fetchProAnalysis = useCallback(async (ticker: string) => {
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-            const res = await fetch(`${API_URL}/analysis/suggestion/${ticker}`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            const res = await fetch(`${API_URL}/api/analysis/suggestion/${ticker}`);
             if (!res.ok) return;
             const data = await res.json();
             setProAnalysis(data);
@@ -204,7 +205,8 @@ export default function AnalysisPage() {
     const refreshData = async () => {
         setIsScanning(true);
         try {
-            await fetch(`http://localhost:8000/scan/${selectedAsset.ticker}`, { method: 'POST' });
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            await fetch(`${API_URL}/api/scan/${selectedAsset.ticker}`, { method: 'POST' });
             await fetchSignals();
             await fetchHistory(selectedAsset.ticker);
             await fetchProAnalysis(selectedAsset.ticker);
