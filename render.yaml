@@ -1,0 +1,21 @@
+services:
+  # Backend Service (FastAPI)
+  - type: web
+    name: smark-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false # Set this in the Render Dashboard
+      - key: PYTHONPATH
+        value: .
+
+  # Frontend Service (Static Site)
+  - type: static_site
+    name: smark-frontend
+    buildCommand: npm install && npm run build
+    publishPath: out # This is the folder created by 'output: export'
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
