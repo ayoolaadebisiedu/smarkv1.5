@@ -1,9 +1,7 @@
 import sys
 import os
 from fastapi import Request
-from fastapi.responses import Response
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.datastructures import URL
 
 # Add the project root to Python path
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
