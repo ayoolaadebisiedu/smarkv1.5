@@ -14,10 +14,9 @@ services:
   # Frontend Service (Static Site)
   - type: static_site
     name: smark-frontend
+    nodeVersion: "20"
     buildCommand: npm install && npm run build
     publishPath: out # This is the folder created by 'output: export'
     envVars:
-      - key: NODE_VERSION
-        value: 20
       - key: NEXT_PUBLIC_API_URL
         sync: false
